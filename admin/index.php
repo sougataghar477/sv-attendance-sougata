@@ -50,16 +50,19 @@ if ($isAdminLoggedIn) {
             $attendances = '';
 
             while ($row = $result->fetch_assoc()) {
-                $attendances .= '
-                <tr>
-                    <td>' . $row['username'] . '</td>
-                    <td>' . $row['users_id'] . '</td>
-                    <td>' . $row['attended_at'] . '</td>
-                    <td>' . $row['check_in_time'] . '</td>
-                    <td>' . $row['device_info'] . '</td>
-                    <td>' . $row['ip'] . '</td>
-                </tr>';
-            }
+    $errorClass = ($row['attended_at'] > date('Y-m-d H:i:s')) ? 'text-danger' : '';
+
+    $attendances .= '
+    <tr >
+        <td class="' . $errorClass . '">' . htmlspecialchars($row['username']) . '</td>
+        <td class="' . $errorClass . '">' . htmlspecialchars($row['users_id']) . '</td>
+        <td class="' . $errorClass . '">' . htmlspecialchars($row['attended_at']) . '</td>
+        <td class="' . $errorClass . '">' . htmlspecialchars($row['check_in_time']) . '</td>
+        <td class="' . $errorClass . '">' . htmlspecialchars($row['device_info']) . '</td>
+        <td class="' . $errorClass . '">' . htmlspecialchars($row['ip']) . '</td>
+    </tr>';
+}
+
 
 $html = '
 <table id="usersTable" class="table table-striped table-bordered">
