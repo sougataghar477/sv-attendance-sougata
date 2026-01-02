@@ -2,6 +2,9 @@
 session_start();
 header("Content-Type: application/json");
 
+/* =========================
+   CSRF VALIDATION
+========================= */
 $isCsrfValid =
     isset($_POST['login_csrf'], $_SESSION['login_csrf']) &&
     hash_equals($_SESSION['login_csrf'], $_POST['login_csrf']);
@@ -36,20 +39,27 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $isCsrfValid) {
     }
 
     $stmt = $conn->prepare(
-        "SELECT id, role, user_key, password FROM users WHERE email = ? LIMIT 1"
+        "SELECT id, role, user_key, password 
+         FROM users 
+         WHERE email = ? 
+         LIMIT 1"
     );
+
     $stmt->bind_param("s", $email);
     $stmt->execute();
-
     $result = $stmt->get_result();
 
     if ($result->num_rows === 1) {
 
         $user = $result->fetch_assoc();
 
-        if ($password=== $user['password']) {
-            session_regenerate_id(true);    
-            unset($_SESSION['login_csrf']);  
+        /* ===== PASSWORD CHECK (UNCHANGED) ===== */
+        if ($password === $user['password']) {
+
+            /* ✅ MINIMAL FIXES */
+            session_regenerate_id(true);
+            unset($_SESSION['login_csrf']);
+
             $_SESSION['user'] = [
                 "id" => $user['id'],
                 "role" => $user['role'],
@@ -60,7 +70,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $isCsrfValid) {
             echo json_encode([
                 "status" => "success",
                 "message" => "Login successful",
-                "user" => ["role" => $user['role']]
+                "user" => [
+                    "role" => $user['role']
+                ]
             ]);
             exit;
 

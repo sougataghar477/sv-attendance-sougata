@@ -51,7 +51,7 @@ if ($isAdminLoggedIn) {
 
             while ($row = $result->fetch_assoc()) {
                 $attendances .= '
-                <tr class="'.<?php echo 's'>.'">
+                <tr>
                     <td>' . $row['username'] . '</td>
                     <td>' . $row['users_id'] . '</td>
                     <td>' . $row['attended_at'] . '</td>

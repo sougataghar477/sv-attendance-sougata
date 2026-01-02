@@ -7,7 +7,9 @@ session_start();
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>PHP App</title>
-  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+      <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.datatables.net/1.13.8/css/dataTables.bootstrap5.min.css" rel="stylesheet">
+ 
 </head>
 
 <body>
@@ -33,9 +35,9 @@ session_start();
 }
         if($isWorkingHours){
             $html = !$attendanceMarkedOnce
-    ? '<form class="w-80 shadow-2xl rounded-2xl p-4" onsubmit="handleAttendance(event)">
+    ? '<form class="col-md-6 col-lg-4 mt-4 mx-auto p-4 border rounded shadow-sm bg-light" onsubmit="handleAttendance(event)">
           <input type="hidden" name="attendance_csrf" value="' . trim(htmlspecialchars($_SESSION['attendance_csrf'])) . '">
-          <button class="w-full p-2 border-2 rounded-xl bg-black text-white">
+          <button class="btn btn-primary btn-lg w-100">
               Mark Attendance
           </button>
        </form>'
@@ -60,6 +62,8 @@ session_start();
     include "../container.php";
     
   ?>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
 <script src="/js/main.js"></script>
 </body>
 </html>
