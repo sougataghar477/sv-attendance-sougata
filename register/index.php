@@ -15,11 +15,24 @@ session_start();
 
   <?php
   $csrf = bin2hex(random_bytes(32));
-  $_SESSION['login_csrf'] = $csrf;
+  $_SESSION['register_csrf'] = $csrf;
 // Load our environment variables from the .env file:
     
-     $html=!isset($_SESSION['user'])?'<form class="col-md-6 col-lg-4 mt-4 mx-auto shadow-lg rounded-4 p-4" onsubmit="handleLogin(event)" method="POST">
-  
+     $html=!isset($_SESSION['user'])?'<form  class="col-md-6 col-lg-4 mt-4 mx-auto shadow-lg rounded-4 p-4" onsubmit="handleRegister(event)" method="POST">
+    <div class="mb-3">
+    <label for="name" class="form-label">Name</label>
+    <input
+      type="text"
+      class="form-control"
+      id="name"
+      name="name"
+      required
+    />
+          <div class="invalid-feedback d-block">
+         
+      </div>
+  </div>
+
   <div class="mb-3">
     <label for="email" class="form-label">Email</label>
     <input
@@ -28,7 +41,11 @@ session_start();
       id="email"
       name="email"
       required
+      pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$"
     />
+      <div class="invalid-feedback d-block">
+         
+      </div>
   </div>
 
   <div class="mb-3">
@@ -40,8 +57,24 @@ session_start();
       name="password"
       required
     />
-    <input type="hidden" name="login_csrf" value="'.$csrf.'" />
-  </div>
+        <div class="invalid-feedback d-block">
+         
+      </div>
+      </div>
+        <div class="mb-3">
+    <label for="confirm_password" class="form-label">Confirm Password</label>
+    <input
+      type="password"
+      class="form-control"
+      id="confirm_password"
+      name="confirm_password"
+      required
+    />
+        <div class="invalid-feedback d-block">
+         
+      </div>
+      </div>
+      <input type="hidden" name="register_csrf" value="'.$csrf.'" />
 
   <button type="submit" class="btn btn-dark w-100">
     Login
