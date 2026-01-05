@@ -20,7 +20,7 @@ session_start();
   $_SESSION['login_csrf'] = $csrf;
 // Load our environment variables from the .env file:
     
-     $html='<form class="col-md-6 col-lg-4 mt-4 mx-auto shadow-lg rounded-4 p-4" onsubmit="handleLogin(event)" method="POST">
+     $html=!isset($_SESSION['user'])?'<form class="col-md-6 col-lg-4 mt-4 mx-auto shadow-lg rounded-4 p-4" onsubmit="handleLogin(event)" method="POST">
   
   <div class="mb-3">
     <label for="email" class="form-label">Email</label>
@@ -49,7 +49,7 @@ session_start();
     Login
   </button>
 
-</form>';
+</form>':header("Location: /attendance");
      include "../container.php";
   ?>
 <script src="/js/main.js"></script>

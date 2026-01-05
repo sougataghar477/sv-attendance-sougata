@@ -41,7 +41,7 @@ $stmt = $conn->prepare(
 );
 $stmt->bind_param("is", $userId, $currentDate);
 $stmt->execute();
-$a = $stmt->get_result(); // Important
+$a = $stmt->get_result();
 $attendanceMarkedOnce = $a->num_rows > 0;
 
   
