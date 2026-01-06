@@ -9,6 +9,8 @@ session_start();
   <title>PHP App</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
   <link href="https://cdn.datatables.net/1.13.8/css/dataTables.bootstrap5.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
+  <link rel="stylesheet" href="/styles/style.css"/>
 </head>
 
 <body>
@@ -18,9 +20,11 @@ session_start();
   $_SESSION['register_csrf'] = $csrf;
 // Load our environment variables from the .env file:
     
-     $html=!isset($_SESSION['user'])?'<form  class="col-md-6 col-lg-4 mt-4 mx-auto shadow-lg rounded-4 p-4" onsubmit="handleRegister(event)" method="POST">
+     $html=!isset($_SESSION['user'])?
+     '<form  class="col-md-6 col-lg-4 mt-4 mx-auto shadow-lg rounded-4 p-4" onsubmit="handleRegister(event)" method="POST">
     <div class="mb-3">
     <label for="name" class="form-label">Name</label>
+    <div>
     <input
       type="text"
       class="form-control"
@@ -28,6 +32,7 @@ session_start();
       name="name"
       required
     />
+    </div>
           <div class="invalid-feedback d-block">
          
       </div>
@@ -35,6 +40,7 @@ session_start();
 
   <div class="mb-3">
     <label for="email" class="form-label">Email</label>
+    <div class="position-relative">
     <input
       type="email"
       class="form-control"
@@ -43,33 +49,40 @@ session_start();
       required
       pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$"
     />
+    </div>
       <div class="invalid-feedback d-block">
          
       </div>
   </div>
 
   <div class="mb-3">
-    <label for="password" class="form-label">Password</label>
+    <label for="register_password" class="form-label">Password</label>
+    <div class="position-relative">
     <input
       type="password"
       class="form-control"
-      id="password"
-      name="password"
+      id="register_password"
+      name="register_password"
       required
     />
+    <i class="bi bi-eye position-absolute" id="register_password_toggler"></i>
+    </div>
         <div class="invalid-feedback d-block">
          
       </div>
       </div>
         <div class="mb-3">
     <label for="confirm_password" class="form-label">Confirm Password</label>
+    <div class="position-relative">
     <input
       type="password"
-      class="form-control"
-      id="confirm_password"
-      name="confirm_password"
+      class="form-control d-flex"
+      id="register_confirm_password"
+      name="register_confirm_password"
       required
-    />
+    /> 
+    <i class="bi bi-eye position-absolute" id="confirm_password_toggler"></i>
+    </div>
         <div class="invalid-feedback d-block">
          
       </div>
@@ -77,16 +90,16 @@ session_start();
       <input type="hidden" name="register_csrf" value="'.$csrf.'" />
 
   <button type="submit" class="btn btn-dark w-100">
-    Login
+    Register
   </button>
 
 </form>
-<button type="button" class="btn btn-primary d-none" data-bs-toggle="modal" data-bs-target="#exampleModal2"id="loginModalBtn">
+<button type="button" class="btn btn-primary d-none" data-bs-toggle="modal" data-bs-target="#exampleModalRegister"id="registerModalBtn">
   Launch demo modal
 </button>
 
  
-<div class="modal fade" id="exampleModal2" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="exampleModalRegister" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content">
       <div class="modal-header">
@@ -95,8 +108,8 @@ session_start();
       </div>
       <div class="modal-body">
        
-        <div class="alert alert-warning" role="alert">
-    Invalid Email or Password . Please retry
+        <div class="alert" role="alert" id="registerModalBody">
+     
   </div>
       </div>
       <div class="modal-footer">

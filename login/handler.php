@@ -1,17 +1,23 @@
 <?php
+// Start session for CSRF and login state
 session_start();
+
+// Tell client this endpoint returns JSON
 header("Content-Type: application/json");
 
- 
+// Check CSRF token
 $isCsrfValid =
     isset($_POST['login_csrf'], $_SESSION['login_csrf']) &&
     hash_equals($_SESSION['login_csrf'], $_POST['login_csrf']);
 
+// Allow only POST requests with valid CSRF
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && $isCsrfValid) {
 
+    // Get form inputs
     $email = trim($_POST['email'] ?? '');
     $password = trim($_POST['password'] ?? '');
 
+    // Validate required fields
     if ($email === '' || $password === '') {
         echo json_encode([
             "status" => "error",
@@ -20,6 +26,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $isCsrfValid) {
         exit;
     }
 
+    // Create database connection
     $conn = new mysqli(
         "db.fr-pari1.bengt.wasmernet.com",
         "a890400970b4800092c62a05eeea",
@@ -28,6 +35,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $isCsrfValid) {
         10272
     );
 
+    // Check database connection
     if ($conn->connect_error) {
         echo json_encode([
             "status" => "error",
@@ -36,9 +44,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $isCsrfValid) {
         exit;
     }
 
+    // Prepare query to fetch user by email
     $stmt = $conn->prepare(
-        "SELECT id, role, user_key, password,name 
-         FROM users 
+        "SELECT id, role, user_key, password, name
+         FROM users
          WHERE email = ?"
     );
 
@@ -46,17 +55,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $isCsrfValid) {
     $stmt->execute();
     $result = $stmt->get_result();
 
+    // If user exists
     if ($result->num_rows === 1) {
 
+        // Fetch user data
         $user = $result->fetch_assoc();
 
-        
-        if ($password === $user['password']) {
+        // Verify password against hashed password
+        if (password_verify($password, $user['password'])) {
 
-           
+            // Regenerate session ID for security
             session_regenerate_id(true);
+
+            // Remove CSRF token after successful login
             unset($_SESSION['login_csrf']);
 
+            // Store user data in session
             $_SESSION['user'] = [
                 "id" => $user['id'],
                 "role" => $user['role'],
@@ -65,6 +79,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $isCsrfValid) {
                 "name" => $user['name']
             ];
 
+            // Send success response
             echo json_encode([
                 "status" => "success",
                 "message" => "Login successful",
@@ -76,6 +91,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $isCsrfValid) {
             exit;
 
         } else {
+            // Password is incorrect
             echo json_encode([
                 "status" => "error",
                 "message" => "Invalid email or password"
@@ -84,6 +100,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $isCsrfValid) {
         }
 
     } else {
+        // Email not found
         echo json_encode([
             "status" => "error",
             "message" => "Invalid email or password"
@@ -92,6 +109,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $isCsrfValid) {
     }
 
 } else {
+    // Invalid request method or CSRF token
     echo json_encode([
         "status" => "error",
         "message" => "Invalid request or invalid token"
