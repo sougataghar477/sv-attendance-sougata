@@ -21,25 +21,37 @@ if($_SERVER['REQUEST_METHOD'] === "POST" && $isRegisterCsrfValid){
 
     // Check for missing fields
     if(empty($name) || empty($email) || empty($password) || empty($confirmPassword)){
-        echo json_encode(["message" => "Missing Fields"]);
+        echo json_encode([
+            "status" => "error",
+            "message" => "Missing Fields"
+        ]);
         exit;
     }
 
     // Validate name length
     if(strlen($name) < 2 || strlen($name) > 30){
-        echo json_encode(["message" => "Entered Name must be between 2-30 characters"]);
+        echo json_encode([
+            "status" => "error",
+            "message" => "Entered Name must be between 2-30 characters"
+        ]);
         exit;
     }
 
     // Validate email format
     if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-        echo json_encode(["message" => "Invalid email"]);
+        echo json_encode([
+            "status" => "error",
+            "message" => "Invalid email"
+        ]);
         exit;
     }
 
     // Check minimum password length
     if(strlen($password) < 8){
-        echo json_encode(["message" => "Password too short"]);
+        echo json_encode([
+            "status" => "error",
+            "message" => "Password too short"
+        ]);
         exit;
     }
 
@@ -71,7 +83,10 @@ if($_SERVER['REQUEST_METHOD'] === "POST" && $isRegisterCsrfValid){
     // If password validation failed, return message
     if($passwordValidationMessage !== "Password "){
         $passwordValidationMessage = substr_replace($passwordValidationMessage, "", -1);
-        echo json_encode(['message' => $passwordValidationMessage]);
+        echo json_encode([
+            "status" => "error",
+            "message" => $passwordValidationMessage
+        ]);
         exit;
     }
 
@@ -98,7 +113,10 @@ if($_SERVER['REQUEST_METHOD'] === "POST" && $isRegisterCsrfValid){
 
     // If email already exists, stop registration
     if ($result->num_rows > 0) {
-        echo json_encode(["message" => "Email already registered"]);
+        echo json_encode([
+            "status" => "error",
+            "message" => "Email already registered"
+        ]);
         exit;
     }
 
@@ -125,6 +143,7 @@ if($_SERVER['REQUEST_METHOD'] === "POST" && $isRegisterCsrfValid){
             unset($_SESSION['register_csrf']);
 
             echo json_encode([
+                "status" => "success",
                 "message" => "Registration successful"
             ]);
             exit;
@@ -132,6 +151,7 @@ if($_SERVER['REQUEST_METHOD'] === "POST" && $isRegisterCsrfValid){
         // If insert fails
         else {
             echo json_encode([
+                "status" => "error",
                 "message" => "Registration failed"
             ]);
             exit;
@@ -141,6 +161,9 @@ if($_SERVER['REQUEST_METHOD'] === "POST" && $isRegisterCsrfValid){
 }
 // Invalid request or CSRF
 else{
-    echo json_encode(["message" => "Wrong Method"]);
+    echo json_encode([
+        "status" => "error",
+        "message" => "Wrong Method"
+    ]);
 }
 ?>

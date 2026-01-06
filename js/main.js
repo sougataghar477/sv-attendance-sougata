@@ -1,3 +1,5 @@
+let isFormTouched =false;
+const registerForm = document.querySelector("#registerForm");
 const attendanceModalBtn = document.querySelector("#attendanceModalBtn");
 const loginModalBtn = document.querySelector("#loginModalBtn");
 const registerModalBtn = document.querySelector("#registerModalBtn");
@@ -74,7 +76,7 @@ fetch("/register/handler.php", {
 .then(r => r.json())
 .then(d => {
     // Handle password warnings
-    if(d.message.includes("Password")){
+    if(d.status==="error"){
         if(registerModalBody.classList.contains("alert-success")){
             registerModalBody.classList.remove("alert-success");
         }
@@ -82,6 +84,7 @@ fetch("/register/handler.php", {
     }
     // Handle success
     else{
+        console.log(d)
         if(registerModalBody.classList.contains("alert-warning")){
             registerModalBody.classList.remove("alert-warning");
         }
@@ -105,9 +108,10 @@ fetch("/register/handler.php", {
     registerModalBtn.click();
     console.error(err);
 });
-
+isFormTouched=true;
 }
 function validateForm(input, errorElement) {
+if(isFormTouched){    
     const hasMinLength = input.value.trim().length >= 8;
     const hasLower     = /[a-z]/.test(input.value.trim());
     const hasUpper     = /[A-Z]/.test(input.value.trim());
@@ -127,10 +131,10 @@ function validateForm(input, errorElement) {
             : errorElement.textContent = "";
         return;
     }
-if (input.type === "password" && input.name === "register_password") {
+if ((input.type === "password" && input.name === "register_password") || (input.type === "text" && input.name === "register_password")) {
 
     let nextInput = input.parentElement.parentElement.nextElementSibling.querySelector("input");
-
+    let nextMessageElement = input.parentElement.parentElement.nextElementSibling.querySelector(".invalid-feedback");
 
     const passwordsMatch = input.value === nextInput.value;
 
@@ -164,16 +168,18 @@ if (input.type === "password" && input.name === "register_password") {
         hasSpecial &&
         passwordsMatch
     ) {
+        errorElement.textContent="";
         console.log("Password validation passed");
+        nextMessageElement.textContent="";
     }
 }
 
 
-if (input.type === "password" && input.name === "register_confirm_password") {
+if ((input.type === "password" && input.name === "register_confirm_password") || (input.type === "text" && input.name === "register_confirm_password")) {
 
     let previousInput =
         input.parentElement.parentElement.previousElementSibling.querySelector("input");
-
+    let previousMessageElement = input.parentElement.parentElement.previousElementSibling.querySelector(".invalid-feedback");
  
     const passwordsMatch = input.value === previousInput.value;
 
@@ -212,8 +218,23 @@ if (input.type === "password" && input.name === "register_confirm_password") {
         hasSpecial &&
         passwordsMatch
     ) {
+        errorElement.textContent = "";
+        previousMessageElement.textContent="";
         console.log("Confirm password validation passed");
     }
-}
+}}
 
 }
+    Array.from(registerForm.children).filter(element => element.tagName !=="BUTTON" && element.tagName !=="INPUT").forEach(i =>{
+        const input = i.children[1].children[0];
+        const errorElement = i.querySelector(".invalid-feedback");
+        console.log(input)
+        input.addEventListener("input",(e)=>{
+            validateForm(input,errorElement);
+            // console.log(e.target.value)
+        });
+                input.addEventListener("blur",(e)=>{
+            validateForm(input,errorElement);
+            // console.log(e.target.value)
+        })
+    });
