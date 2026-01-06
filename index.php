@@ -14,7 +14,16 @@ session_start();
 <body>
 
   <?php
-    $html ="Welcome to Your Attendance Page";
+    $html ="
+    <h1>Welcome to Your Attendance Page</h1>
+    <div role='alert' class='alert alert-warning'>
+        <h2>Attention</h2>
+        <p>
+        All existing users and administrators are required to head to the <a href='/login'>login page</a> which is at the navbar on top.
+        If you haven't registered yet , please register immediately by clicking on the <a href='/register'>register page</a> in the navbar as it is mandatory.
+        </p>
+    </div>
+    ";
     include "./container.php";
   ?>
 <script src="/js/main.js"></script>
