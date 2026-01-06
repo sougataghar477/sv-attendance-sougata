@@ -15,7 +15,7 @@ session_start();
 
 <body>
 
-<h1>PHP Server Running</h1>
+ 
 
 <?php
 $isAdminLoggedIn =
