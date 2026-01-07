@@ -20,14 +20,19 @@ $links = ["home", "attendance", "admin", "login", "register"];
         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
           <?php
           foreach ($links as $link) {
+            // find if its active link
             $isActiveLink = $link === trim($currentPath,'/');
+            //append underline class if its active
             $activeClass= $isActiveLink ?'underline':'';
+            // if not admin logged in hide the link
               if(!$isAdminLoggedIn && $link=== 'admin'){
                 continue;
               }
+              // on logged in hide login link
               if($isLoggedIn && $link=== "login"){
                 continue;
               }
+              // on logged in hide register link
               if($isLoggedIn && $link=== "register"){
                 continue;
               }
@@ -40,11 +45,16 @@ $links = ["home", "attendance", "admin", "login", "register"];
           }?>
         </ul>
 
-        <?php if ($isLoggedIn): ?>
-          <form class="d-flex" action="/logout.php" method="POST">
-            <button class="btn btn-danger" type="submit">Log Out</button>
-          </form>
-        <?php endif; ?>
+        <?php
+        if ($isLoggedIn) {
+          echo '
+            <form class="d-flex" action="/logout.php" method="POST">
+              <button class="btn btn-danger" type="submit">Log Out</button>
+            </form>
+          ';
+        }
+        ?>
+
 
       </div>
     </div>
