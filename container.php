@@ -35,7 +35,7 @@ $links = ["home", "attendance", "admin", "login", "register"];
                   $currentPath === $href ||
                   rtrim($currentPath, '/') === $href
               )
-              ? ' text-decoration-underline fw-semibold'
+              ? ' underline'
               : '';
 
 
