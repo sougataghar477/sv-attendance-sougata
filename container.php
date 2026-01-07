@@ -10,7 +10,7 @@ $links = ["home", "attendance", "admin", "login", "register"];
 <div class="container">
   <nav class="navbar navbar-expand-lg navbar-light bg-light my-4">
     <div class="container-fluid">
-      <a class="navbar-brand" href="/"><?php echo $isActiveLink?></a>
+      <a class="navbar-brand" href="/">SV Infotech</a>
 
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent">
         <span class="navbar-toggler-icon"></span>
@@ -37,7 +37,7 @@ $links = ["home", "attendance", "admin", "login", "register"];
                 continue;
               }
               echo '<li class="nav-item">
-                <a class="nav-link '.$activeClass.'" href="'.'/'.$link.'">'
+                <a class="nav-link '.$activeClass.'" href="'.$link==="home"?'/':'/'.$link.'">'
                   . ucfirst($link) . '
                 </a>
               </li>';
