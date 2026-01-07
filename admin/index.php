@@ -66,6 +66,7 @@ if ($isAdminLoggedIn) {
 }
  
 $html = '
+<h2 class="mb-4">Admin Page</h2>
 <table id="usersTable" class="table table-striped table-bordered">
   <thead>
     <tr>

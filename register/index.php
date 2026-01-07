@@ -21,7 +21,10 @@ session_start();
 // Load our environment variables from the .env file:
     
      $html=!isset($_SESSION['user'])?
-     '<form  class="col-md-6 col-lg-4 mt-4 mx-auto shadow-lg rounded-4 p-4" onsubmit="handleRegister(event)" method="POST" id="registerForm">
+     '
+     <div class="col-md-6 col-lg-4 mt-4 mx-auto shadow-lg rounded-4 p-4">
+     <h3 class="text-center">Register</h3>
+     <form  class="" onsubmit="handleRegister(event)" method="POST" id="registerForm">
     <div class="mb-3">
     <label for="name" class="form-label">Name</label>
     <div>
@@ -94,6 +97,7 @@ session_start();
   </button>
 
 </form>
+</div>
 <button type="button" class="btn btn-primary d-none" data-bs-toggle="modal" data-bs-target="#exampleModalRegister"id="registerModalBtn">
   Launch demo modal
 </button>

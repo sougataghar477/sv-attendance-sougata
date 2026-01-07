@@ -7,6 +7,7 @@ session_start();
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>PHP App</title>
+    <link rel="stylesheet" href="/styles/style.css"/>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
   <link href="https://cdn.datatables.net/1.13.8/css/dataTables.bootstrap5.min.css" rel="stylesheet">
 </head>
@@ -19,7 +20,11 @@ session_start();
 // Load our environment variables from the .env file:
     
      $html=!isset($_SESSION['user'])?
-     '<form class="col-md-6 col-lg-4 mt-4 mx-auto shadow-lg rounded-4 p-4" onsubmit="handleLogin(event)" method="POST">
+
+     '
+     <div class="col-md-6 col-lg-4 mt-4 mx-auto shadow-lg rounded-4 p-4">
+     <h3 class="text-center">Login</h3>
+     <form class="" onsubmit="handleLogin(event)" method="POST">
   
   <div class="mb-3">
     <label for="email" class="form-label">Email</label>
@@ -49,6 +54,7 @@ session_start();
   </button>
 
 </form>
+</div>
 <button type="button" class="btn btn-primary d-none" data-bs-toggle="modal" data-bs-target="#exampleModal2"id="loginModalBtn">
   Launch demo modal
 </button>
