@@ -16,6 +16,4 @@ Setup:
 1. Clone the repo
 2. Run php -S 127.0.0.1:8000 in your preferred terminal
 3. Go to http://127.0.0.1:8000/login/
-4. Admin Credentials are as follows:
-    username: admin@example.com 
-    password: Batman234:)
+4. Ask me for Credentials 
