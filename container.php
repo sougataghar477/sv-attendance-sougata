@@ -30,7 +30,7 @@ $links = ["home", "attendance", "admin", "login", "register"];
               // determine href
               $href = ($link === "home") ? '/' : '/' . $link;
 
-              // active check WITHOUT modifying currentPath
+              // active class
               $isActive = (
                   $currentPath === $href ||
                   rtrim($currentPath, '/') === $href
