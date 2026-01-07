@@ -37,7 +37,7 @@ $links = ["home", "attendance", "admin", "login", "register"];
                 continue;
               }
               echo '<li class="nav-item">
-                <a class="nav-link '.$activeClass.'" href="'.$link==="home"?'/':'/'.$link.'">'
+                <a class="nav-link '.$activeClass.'" href="'.($link==="home"?'/':'/'.$link).'">'
                   . ucfirst($link) . '
                 </a>
               </li>';
