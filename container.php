@@ -4,7 +4,14 @@ $isAdminLoggedIn = $isLoggedIn && ($_SESSION['user']['role'] === "admin");
 
 $currentPath = $_SERVER['REQUEST_URI']; // keep it exactly as-is
 
-$links = ["home", "attendance", "admin", "login", "register"];
+$links = [
+  ["name" => "home","path" => "/"],
+  ["name" => "attendance","path" => "/attendance"],
+  ["name" => "admin","path" => "/admin"],
+  ["name" => "login","path" => "/login"],
+  ["name" => "register","path" => "/register"],
+];
+
 ?>
 
 <div class="container">
@@ -21,24 +28,24 @@ $links = ["home", "attendance", "admin", "login", "register"];
           <?php
           foreach ($links as $link) {
             // find if its active link
-            $isActiveLink = $link === trim($currentPath,'/');
+            $isActiveLink = $link['path'] === trim($currentPath);
             //append underline class if its active
             $activeClass= $isActiveLink ?'underline':'';
             // if not admin logged in hide the link
-              if(!$isAdminLoggedIn && $link=== 'admin'){
+              if(!$isAdminLoggedIn && $link['name']=== 'admin'){
                 continue;
               }
               // on logged in hide login link
-              if($isLoggedIn && $link=== "login"){
+              if($isLoggedIn && $link['name']=== "login"){
                 continue;
               }
               // on logged in hide register link
-              if($isLoggedIn && $link=== "register"){
+              if($isLoggedIn && $link['name']=== "register"){
                 continue;
               }
               echo '<li class="nav-item">
-                <a class="nav-link '.$activeClass.'" href="'.($link==="home"?'/':'/'.$link).'">'
-                  . ucfirst($link) . '
+                <a class="nav-link '.$activeClass.'" href="'.($link['path']).'">'
+                  . ucfirst($link['name']) . '
                 </a>
               </li>';
               
