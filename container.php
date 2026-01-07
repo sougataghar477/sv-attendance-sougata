@@ -31,9 +31,13 @@ $links = ["home", "attendance", "admin", "login", "register"];
               $href = ($link === "home") ? '/' : '/' . $link;
 
               // active check WITHOUT modifying currentPath
-              $isActive = ($currentPath === $href) 
-                  ? ' text-decoration-underline fw-semibold' 
-                  : '';
+              $isActive = (
+                  $currentPath === $href ||
+                  rtrim($currentPath, '/') === $href
+              )
+              ? ' text-decoration-underline fw-semibold'
+              : '';
+
 
               echo '
               <li class="nav-item">
