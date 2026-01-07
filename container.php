@@ -2,8 +2,7 @@
 $isLoggedIn = isset($_SESSION['user']);
 $isAdminLoggedIn = $isLoggedIn && ($_SESSION['user']['role'] === "admin");
 
-$currentPath = trim($_SERVER['REQUEST_URI'], '/');
-$currentPath = $currentPath === '' ? 'home' : $currentPath;
+$currentPath = $_SERVER['REQUEST_URI']; // keep it exactly as-is
 
 $links = ["home", "attendance", "admin", "login", "register"];
 ?>
@@ -28,8 +27,13 @@ $links = ["home", "attendance", "admin", "login", "register"];
               // hide login & register if logged in
               if (($link === "login" || $link === "register") && $isLoggedIn) continue;
 
-              $isActive = ($link === $currentPath) ? ' text-decoration-underline fw-semibold' : '';
-              $href = $link === 'home' ? '/' : '/' . $link;
+              // determine href
+              $href = ($link === "home") ? '/' : '/' . $link;
+
+              // active check WITHOUT modifying currentPath
+              $isActive = ($currentPath === $href) 
+                  ? ' text-decoration-underline fw-semibold' 
+                  : '';
 
               echo '
               <li class="nav-item">
