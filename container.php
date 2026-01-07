@@ -20,7 +20,15 @@ $links = ["home", "attendance", "admin", "login", "register"];
         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
           <?php
           foreach ($links as $link) {
-
+              if($link==="home"){
+                
+              echo '
+              <li class="nav-item">
+                <a class="nav-link '.('/'.$link===$currentPath?'underline':'') .'" href="/''">
+                  ' . ucfirst($link) . '
+                </a>
+              </li>'
+              }
               // hide admin if not admin
               if ($link === "admin" && !$isAdminLoggedIn) {
                   continue;
