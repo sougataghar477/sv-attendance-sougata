@@ -4,6 +4,7 @@ const attendanceModalBtn = document.querySelector("#attendanceModalBtn");
 const loginModalBtn = document.querySelector("#loginModalBtn");
 const registerModalBtn = document.querySelector("#registerModalBtn");
 const registerModalBody =  document.querySelector("#registerModalBody");
+const loginModalBody =  document.querySelector("#loginModalBody");
 const passwordVisiblityTogglers = [...document.querySelectorAll(".bi-eye")];
 passwordVisiblityTogglers.forEach(toggler => {
     toggler.addEventListener("click",(event)=>{
@@ -38,6 +39,7 @@ function handleLogin(event) {
             }
         }
         else{
+            loginModalBody.textContent = data.message;
             loginModalBtn.click();
         }
  

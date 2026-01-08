@@ -69,8 +69,7 @@ session_start();
       </div>
       <div class="modal-body">
        
-        <div class="alert alert-warning" role="alert">
-    Invalid Email or Password . Please retry
+        <div class="alert alert-warning" role="alert" id="loginModalBody">
   </div>
       </div>
       <div class="modal-footer">
