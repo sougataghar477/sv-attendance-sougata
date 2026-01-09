@@ -15,37 +15,39 @@ passwordVisiblityTogglers.forEach(toggler => {
          toggler.classList.toggle("opacity-5");
     })
 });
-function handleLogin(event) {
-    event.preventDefault();
+async function handleLogin(event) {
+  event.preventDefault();
 
-    const formData = new FormData(event.target);
+  const formData = new FormData(event.target);
 
-    fetch("/login/handler.php", {
-        method: "POST",
-        credentials: "include",
-        body: formData   
-    })
-    .then(res => res.json())
-    .then(data => {
-        console.log(data);
-        if(data.status==="success"){
-            if(data.role==="user"){
-                window.location.href ="/attendance";
-                return
-            }
-            else{
-            window.location.href ="/admin";
-                return
-            }
-        }
-        else{
-            loginModalBody.textContent = data.message;
-            loginModalBtn.click();
-        }
- 
-    })
-    .catch(err => console.error(err));
+  try {
+    const res = await fetch("/login/handler.php", {
+      method: "POST",
+      credentials: "include",
+      body: formData
+    });
+
+    const data = await res.json();
+    console.log(data);
+
+    if (data.status === "success") {
+      if (data.role === "user") {
+        window.location.href = "/attendance";
+      } else {
+        window.location.href = "/admin";
+      }
+      return;
+    }
+
+    // error case
+    loginModalBody.textContent = data.message;
+    loginModalBtn.click();
+
+  } catch (err) {
+    console.error(err);
+  }
 }
+
 function handleAttendance(event){
     event.preventDefault();
     fetch("/attendance/handler.php", {
